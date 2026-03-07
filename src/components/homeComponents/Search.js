@@ -7,8 +7,7 @@ import "./Search.css";
 const Search = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { searchProducts, searchResults, searchLoading, searchError } =
-    useAuth();
+  const { searchProducts, searchLoading, searchError } = useAuth();
   const [results, setResults] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const hasFetched = useRef(false);
@@ -19,7 +18,7 @@ const Search = () => {
     if (query) {
       setInputValue(query);
     }
-  }, [query]);
+  }, [query, handleSearch]);
 
   useEffect(() => {
     if (!query || hasFetched.current) return;
@@ -49,12 +48,12 @@ const Search = () => {
     }
   };
 
-  const handleNewSearch = (newQuery) => {
-    if (newQuery.trim()) {
-      hasFetched.current = false;
-      navigate(`/search?q=${encodeURIComponent(newQuery)}`);
-    }
-  };
+  // const handleNewSearch = (newQuery) => {
+  //   if (newQuery.trim()) {
+  //     hasFetched.current = false;
+  //     navigate(`/search?q=${encodeURIComponent(newQuery)}`);
+  //   }
+  // };
 
   // Показываем загрузку
   if (searchLoading) {

@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   // Добавляем ref для отслеживания текущего запроса
   const currentQueryRef = useRef(null);
-
+  accessToken = accessToken;
   // Проверяем, есть ли уже пользователь при загрузке
   useEffect(() => {
     checkUser();
