@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { FiExternalLink, FiSearch } from "react-icons/fi";
@@ -14,11 +14,24 @@ const Search = () => {
 
   const query = searchParams.get("q") || "";
 
+  // Оборачиваем handleSearch в useCallback
+  const handleSearch = useCallback(
+    async (searchQuery) => {
+      if (results?.query === searchQuery) return;
+
+      const result = await searchProducts(searchQuery);
+      if (result.success) {
+        setResults(result.data);
+      }
+    },
+    [results, searchProducts],
+  ); // Зависимости для handleSearch
+
   useEffect(() => {
     if (query) {
       setInputValue(query);
     }
-  }, [query, handleSearch]);
+  }, [query]); // Убрал handleSearch из зависимостей - он здесь не нужен
 
   useEffect(() => {
     if (!query || hasFetched.current) return;
@@ -29,16 +42,7 @@ const Search = () => {
     return () => {
       hasFetched.current = false;
     };
-  }, [query]);
-
-  const handleSearch = async (searchQuery) => {
-    if (results?.query === searchQuery) return;
-
-    const result = await searchProducts(searchQuery);
-    if (result.success) {
-      setResults(result.data);
-    }
-  };
+  }, [query, handleSearch]); // Теперь handleSearch стабильна и не вызывает лишних рендеров
 
   const handleSearchInput = (e) => {
     if (e.key === "Enter" && e.target.value.trim()) {
@@ -47,13 +51,6 @@ const Search = () => {
       setInputValue("");
     }
   };
-
-  // const handleNewSearch = (newQuery) => {
-  //   if (newQuery.trim()) {
-  //     hasFetched.current = false;
-  //     navigate(`/search?q=${encodeURIComponent(newQuery)}`);
-  //   }
-  // };
 
   // Показываем загрузку
   if (searchLoading) {

@@ -21,14 +21,14 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState(null);
+  // const [accessToken, setAccessToken] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState(null);
 
   // Добавляем ref для отслеживания текущего запроса
   const currentQueryRef = useRef(null);
-  accessToken = accessToken;
+  // accessToken = accessToken;
   // Проверяем, есть ли уже пользователь при загрузке
   useEffect(() => {
     checkUser();
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        setAccessToken(token);
+        // setAccessToken(token);
         // Получаем информацию о пользователе
         const response = await api.get("/me");
         setUser(response.data.user);
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Failed to get user:", error);
       localStorage.removeItem("accessToken");
-      setAccessToken(null);
+      // setAccessToken(null);
       setUser(null);
     } finally {
       setLoading(false);
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       const { access_token, user } = response.data;
 
       localStorage.setItem("accessToken", access_token);
-      setAccessToken(access_token);
+      // setAccessToken(access_token);
       setUser(user);
 
       toast.success("Успешный вход!");
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
       const { access_token, user } = response.data;
 
       localStorage.setItem("accessToken", access_token);
-      setAccessToken(access_token);
+      // setAccessToken(access_token);
       setUser(user);
 
       toast.success("Регистрация успешна!");
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Logout error:", error);
     } finally {
       localStorage.removeItem("accessToken");
-      setAccessToken(null);
+      // setAccessToken(null);
       setUser(null);
       setSearchResults(null);
       setSearchError(null);
