@@ -121,6 +121,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  margin-left: 15px;
 }
 
 .login-btn:hover {
@@ -160,8 +161,9 @@
   }
 
   .login-btn {
-    padding: 6px 16px;
+    padding: 7px 13px;
     font-size: 13px;
+    margin-left: 27px;
   }
 }
 
