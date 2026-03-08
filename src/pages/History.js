@@ -28,28 +28,28 @@ const History = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const now = new Date();
+  //   const diffMs = now - date;
+  //   const diffMins = Math.floor(diffMs / 60000);
+  //   const diffHours = Math.floor(diffMs / 3600000);
+  // //   const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 60) {
-      return `${diffMins} минут назад`;
-    } else if (diffHours < 24) {
-      return `${diffHours} часов назад`;
-    } else if (diffDays < 7) {
-      return `${diffDays} дней назад`;
-    } else {
-      return date.toLocaleDateString("ru-RU", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-    }
-  };
+  //   if (diffMins < 60) {
+  //     return `${diffMins} минут назад`;
+  //   } else if (diffHours < 24) {
+  //     return `${diffHours} часов назад`;
+  //   } else if (diffDays < 7) {
+  //     return `${diffDays} дней назад`;
+  //   } else {
+  //     return date.toLocaleDateString("ru-RU", {
+  //       day: "numeric",
+  //       month: "long",
+  //       year: "numeric",
+  //     });
+  //   }
+  // };
 
   const formatFullDate = (dateString) => {
     const date = new Date(dateString);
