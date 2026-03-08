@@ -413,3 +413,134 @@
     height: 160px;
   }
 }
+
+/* Футер */
+.footer {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+  padding: 40px 20px 20px;
+  margin-top: 60px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer-description {
+  font-size: 14px;
+  color: #a0a0a0;
+  line-height: 1.5;
+}
+
+.footer-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: #a0a0a0;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.footer-names {
+  font-size: 16px;
+  font-weight: 500;
+  color: #667eea;
+  margin-bottom: 8px;
+}
+
+.footer-location {
+  font-size: 14px;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* .footer-location::before {
+  content: "📍";
+  font-size: 14px;
+} */
+
+.footer-copyright {
+  text-align: right;
+}
+
+.footer-copyright p {
+  font-size: 14px;
+  color: #a0a0a0;
+  margin-bottom: 4px;
+}
+
+.footer-rights {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+  font-size: 14px;
+  color: #a0a0a0;
+}
+
+/* Адаптивность для футера */
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .footer-copyright {
+    text-align: center;
+  }
+
+  .footer-location {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 15px 15px;
+  }
+
+  .footer-title {
+    font-size: 20px;
+  }
+
+  .footer-subtitle {
+    font-size: 16px;
+  }
+
+  .footer-names {
+    font-size: 14px;
+  }
+}

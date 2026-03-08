@@ -11,7 +11,7 @@ import JeansMen from "../assets/img/Jeans_mens.jpg";
 import SkinBag from "../assets/img/skin_bag.jpg";
 import CoatWomen from "../assets/img/Palto_girl.jpg";
 import CostumeMen from "../assets/img/Costume_men.jpg";
-
+import { FaLocationDot } from "react-icons/fa6";
 const Home = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -221,6 +221,38 @@ const Home = () => {
           </button>
         </div>
       </section>
+
+      {/* Футер */}
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            <div className="footer-info">
+              <h3 className="footer-title">MarketScan</h3>
+              <p className="footer-description">
+                Умный поиск товаров на всех маркетплейсах
+              </p>
+            </div>
+
+            <div className="footer-creators">
+              <h4 className="footer-subtitle">Над проектом работали</h4>
+              <p className="footer-text">
+                Проект сделан учениками школы МОУ СОШ №34 им. А.Г. Монетова
+              </p>
+              <p className="footer-names">
+                Большаков Даниил и Широкий Александр
+              </p>
+              <p className="footer-location">
+                <FaLocationDot /> г. Подольск, Московская область
+              </p>
+            </div>
+
+            <div className="footer-copyright">
+              <p>© {new Date().getFullYear()} MarketScan</p>
+              <p className="footer-rights">Все права защищены</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
