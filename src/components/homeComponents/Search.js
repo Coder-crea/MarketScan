@@ -21,13 +21,21 @@ const Search = () => {
   const [sortBy, setSortBy] = useState("default");
   const [sortOrder, setSortOrder] = useState("asc");
   const [showSortMenu, setShowSortMenu] = useState(false);
+
   const hasFetched = useRef(false);
   const currentQueryRef = useRef(null);
   const sortMenuRef = useRef(null);
-  const isFirstRenderRef = useRef(true); // ← Реф для отслеживания первого рендера
+  const inputRef = useRef(null); // ← Реф для управления фокусом инпута
 
   const query = searchParams.get("q") || "";
   const API_URL = "https://foxshop-production.up.railway.app/api";
+
+  // Фокус на инпут при первом монтировании
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   // Закрытие меню сортировки при клике вне
   useEffect(() => {
@@ -38,11 +46,6 @@ const Search = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Сброс флага первого рендера после монтирования
-  useEffect(() => {
-    isFirstRenderRef.current = false;
   }, []);
 
   // Функция сортировки товаров
@@ -66,7 +69,6 @@ const Search = () => {
         sorted.sort((a, b) => {
           const ratingA = parseFloat(a.rating) || -1;
           const ratingB = parseFloat(b.rating) || -1;
-          // Товары без рейтинга отправляем в конец
           if (ratingA === -1 && ratingB === -1) return 0;
           if (ratingA === -1) return 1;
           if (ratingB === -1) return -1;
@@ -75,14 +77,13 @@ const Search = () => {
         break;
 
       default:
-        // По умолчанию - порядок от сервера
         return products;
     }
 
     return sorted;
   }, []);
 
-  // Поиск товаров - обернуто в useCallback
+  // Поиск товаров
   const performSearch = useCallback(
     async (searchQuery) => {
       if (!searchQuery?.trim()) {
@@ -151,7 +152,7 @@ const Search = () => {
     [API_URL, results?.query],
   );
 
-  // Выполнение поиска при клике на кнопку - обернуто в useCallback
+  // Выполнение поиска при клике на кнопку
   const handleSearchClick = useCallback(() => {
     const searchQuery = inputValue.trim();
     if (searchQuery) {
@@ -165,7 +166,7 @@ const Search = () => {
     }
   }, [inputValue, query, navigate]);
 
-  // Запускаем поиск при изменении query - исправлено
+  // Запускаем поиск при изменении query
   useEffect(() => {
     if (query && !hasFetched.current) {
       hasFetched.current = true;
@@ -176,14 +177,14 @@ const Search = () => {
     };
   }, [query, performSearch]);
 
-  // Обновляем инпут
+  // Обновляем инпут при изменении query из URL
   useEffect(() => {
     if (query) {
       setInputValue(query);
     }
   }, [query]);
 
-  // Обработка ввода - обернуто в useCallback
+  // Обработка ввода
   const handleSearchInput = useCallback(
     (e) => {
       if (e.key === "Enter" && e.target.value.trim()) {
@@ -204,96 +205,34 @@ const Search = () => {
     return sortProducts(results.originalResults, sortBy, sortOrder);
   }, [results, sortBy, sortOrder, sortProducts]);
 
-  // Поисковая строка с кнопкой
-  const SearchInput = () => (
-    <div className="search-header">
-      <div className="search-center">
-        <div className="search-wrapper">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Поиск товаров..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleSearchInput}
-            autoFocus={isFirstRenderRef.current} // ← Только при первом рендере
-            disabled={loading}
-          />
-          <button
-            className="search-button"
-            onClick={handleSearchClick}
-            disabled={loading}
-          >
-            <CiSearch size={20} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Компонент сортировки
-  const SortControls = () => (
-    <div className="sort-controls" ref={sortMenuRef}>
-      <button
-        className="sort-button"
-        onClick={() => setShowSortMenu(!showSortMenu)}
-        onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
-      >
-        <span>Сортировка</span>
-        <FiChevronDown
-          className={`sort-icon ${showSortMenu ? "rotated" : ""}`}
-        />
-      </button>
-
-      {showSortMenu && (
-        <div className="sort-menu">
-          <div
-            className={`sort-option ${sortBy === "default" ? "active" : ""}`}
-            onClick={() => {
-              setSortBy("default");
-              setShowSortMenu(false);
-            }}
-            onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
-          >
-            По умолчанию
-          </div>
-          <div className="sort-option price-sort">
-            <span>По цене</span>
-            <div className="sort-order-buttons">
-              <button
-                className={`order-btn ${sortBy === "price" && sortOrder === "asc" ? "active" : ""}`}
-                onClick={() => {
-                  setSortBy("price");
-                  setSortOrder("asc");
-                  setShowSortMenu(false);
-                }}
-                onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
-              >
-                <FiArrowDown size={14} /> дешевле
-              </button>
-              <button
-                className={`order-btn ${sortBy === "price" && sortOrder === "desc" ? "active" : ""}`}
-                onClick={() => {
-                  setSortBy("price");
-                  setSortOrder("desc");
-                  setShowSortMenu(false);
-                }}
-                onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
-              >
-                <FiArrowUp size={14} /> дороже
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
   // Загрузка
   if (loading) {
     return (
       <div className="search-loading">
-        <SearchInput />
+        {/* Поисковая строка встроена напрямую */}
+        <div className="search-header">
+          <div className="search-center">
+            <div className="search-wrapper">
+              <input
+                ref={inputRef}
+                type="text"
+                className="search-input"
+                placeholder="Поиск товаров..."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleSearchInput}
+                disabled={loading}
+              />
+              <button
+                className="search-button"
+                onClick={handleSearchClick}
+                disabled={loading}
+              >
+                <CiSearch size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="loading-spinner"></div>
         <p>Ищем товары по запросу "{query}"...</p>
       </div>
@@ -304,7 +243,30 @@ const Search = () => {
   if (error) {
     return (
       <div className="search-error">
-        <SearchInput />
+        {/* Поисковая строка встроена напрямую */}
+        <div className="search-header">
+          <div className="search-center">
+            <div className="search-wrapper">
+              <input
+                ref={inputRef}
+                type="text"
+                className="search-input"
+                placeholder="Поиск товаров..."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleSearchInput}
+                disabled={loading}
+              />
+              <button
+                className="search-button"
+                onClick={handleSearchClick}
+                disabled={loading}
+              >
+                <CiSearch size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
         <p>{error}</p>
         <div className="error-buttons">
           <button onClick={() => navigate("/")}>На главную</button>
@@ -322,14 +284,93 @@ const Search = () => {
 
     return (
       <div className="search-container">
-        <SearchInput />
+        {/* Поисковая строка встроена напрямую */}
+        <div className="search-header">
+          <div className="search-center">
+            <div className="search-wrapper">
+              <input
+                ref={inputRef}
+                type="text"
+                className="search-input"
+                placeholder="Поиск товаров..."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleSearchInput}
+                disabled={loading}
+              />
+              <button
+                className="search-button"
+                onClick={handleSearchClick}
+                disabled={loading}
+              >
+                <CiSearch size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div className="search-info">
           <div className="search-info-left">
             <h1>Результаты поиска: "{query}"</h1>
             <p className="results-count">Найдено товаров: {products.length}</p>
           </div>
-          {products.length > 0 && <SortControls />}
+          {products.length > 0 && (
+            // Сортировка встроена напрямую
+            <div className="sort-controls" ref={sortMenuRef}>
+              <button
+                className="sort-button"
+                onClick={() => setShowSortMenu(!showSortMenu)}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                <span>Сортировка</span>
+                <FiChevronDown
+                  className={`sort-icon ${showSortMenu ? "rotated" : ""}`}
+                />
+              </button>
+
+              {showSortMenu && (
+                <div className="sort-menu">
+                  <div
+                    className={`sort-option ${sortBy === "default" ? "active" : ""}`}
+                    onClick={() => {
+                      setSortBy("default");
+                      setShowSortMenu(false);
+                    }}
+                    onMouseDown={(e) => e.preventDefault()}
+                  >
+                    По умолчанию
+                  </div>
+                  <div className="sort-option price-sort">
+                    <span>По цене</span>
+                    <div className="sort-order-buttons">
+                      <button
+                        className={`order-btn ${sortBy === "price" && sortOrder === "asc" ? "active" : ""}`}
+                        onClick={() => {
+                          setSortBy("price");
+                          setSortOrder("asc");
+                          setShowSortMenu(false);
+                        }}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        <FiArrowDown size={14} /> дешевле
+                      </button>
+                      <button
+                        className={`order-btn ${sortBy === "price" && sortOrder === "desc" ? "active" : ""}`}
+                        onClick={() => {
+                          setSortBy("price");
+                          setSortOrder("desc");
+                          setShowSortMenu(false);
+                        }}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        <FiArrowUp size={14} /> дороже
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {products.length === 0 ? (
@@ -391,7 +432,30 @@ const Search = () => {
   // Пустая страница
   return (
     <div className="search-empty">
-      <SearchInput />
+      {/* Поисковая строка встроена напрямую */}
+      <div className="search-header">
+        <div className="search-center">
+          <div className="search-wrapper">
+            <input
+              ref={inputRef}
+              type="text"
+              className="search-input"
+              placeholder="Поиск товаров..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleSearchInput}
+              disabled={loading}
+            />
+            <button
+              className="search-button"
+              onClick={handleSearchClick}
+              disabled={loading}
+            >
+              <CiSearch size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
       <FiSearch className="empty-icon" />
       <h2>Поиск товаров</h2>
       <p>Введите запрос, чтобы найти товары</p>
