@@ -24,6 +24,7 @@ const Search = () => {
   const hasFetched = useRef(false);
   const currentQueryRef = useRef(null);
   const sortMenuRef = useRef(null);
+  const isFirstRenderRef = useRef(true); // ← Реф для отслеживания первого рендера
 
   const query = searchParams.get("q") || "";
   const API_URL = "https://foxshop-production.up.railway.app/api";
@@ -37,6 +38,11 @@ const Search = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Сброс флага первого рендера после монтирования
+  useEffect(() => {
+    isFirstRenderRef.current = false;
   }, []);
 
   // Функция сортировки товаров
@@ -210,7 +216,7 @@ const Search = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleSearchInput}
-            autoFocus
+            autoFocus={isFirstRenderRef.current} // ← Только при первом рендере
             disabled={loading}
           />
           <button
@@ -231,6 +237,7 @@ const Search = () => {
       <button
         className="sort-button"
         onClick={() => setShowSortMenu(!showSortMenu)}
+        onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
       >
         <span>Сортировка</span>
         <FiChevronDown
@@ -246,6 +253,7 @@ const Search = () => {
               setSortBy("default");
               setShowSortMenu(false);
             }}
+            onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
           >
             По умолчанию
           </div>
@@ -259,8 +267,9 @@ const Search = () => {
                   setSortOrder("asc");
                   setShowSortMenu(false);
                 }}
+                onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
               >
-                <FiArrowUp size={14} /> дешевле
+                <FiArrowDown size={14} /> дешевле
               </button>
               <button
                 className={`order-btn ${sortBy === "price" && sortOrder === "desc" ? "active" : ""}`}
@@ -269,8 +278,9 @@ const Search = () => {
                   setSortOrder("desc");
                   setShowSortMenu(false);
                 }}
+                onMouseDown={(e) => e.preventDefault()} // ← Предотвращаем потерю фокуса
               >
-                <FiArrowDown size={14} /> дороже
+                <FiArrowUp size={14} /> дороже
               </button>
             </div>
           </div>
