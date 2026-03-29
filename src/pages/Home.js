@@ -22,49 +22,57 @@ const Home = () => {
       id: 1,
       image: Tshirt,
       title: "Футболка оверсайз",
-      price: "1 990 ₽",
+      price: "885 ₽",
+      url: "https://www.ozon.ru/product/futbolka-esqudo-oversayz-3552911937/?at=r2t4jWYq0sGOGO6LHPm6Xn6TpRm601iV86y3Bc1V2xX4",
     },
     {
       id: 2,
       image: SneakersNike,
       title: "Кроссовки Nike",
-      price: "4 500 ₽",
+      price: "2 236 ₽",
+      url: "https://www.ozon.ru/product/krossovki-air-force-dunk-2884397522/?at=ywtAWpw1zc57VYZMIKGEMzMU4yyk32S880krwSq9n6j",
     },
     {
       id: 3,
       image: DressSummer,
       title: "Платье летнее",
-      price: "2 890 ₽",
+      price: "2 690 ₽",
+      url: "https://www.ozon.ru/product/plate-bez-rukavov-tsvet-2082783570/?at=w0tgQ2mjzTzOX41Kc9rxy4wT791PyoukKmLWjSAL9plj",
     },
     {
       id: 4,
       image: SneakersAdidas,
       title: "Кроссовки Adidas",
-      price: "3 990 ₽",
+      price: "2 000 ₽",
+      url: "https://www.ozon.ru/product/krossovki-originals-forum-2061501684/?at=w0tgQ2mjzTBq9mkWIglG8rqF7gKO3LsABBNNYIvrnp2z",
     },
     {
       id: 5,
       image: JeansMen,
       title: "Джинсы мужские",
-      price: "2 490 ₽",
+      price: "3 287 ₽",
+      url: "https://www.ozon.ru/product/dzhinsy-kanytonshop-banan-1617930400/?at=99trKDX0ghpQPqjXu34rwj8sq9KowLHWBJNZBuQPAKRj",
     },
     {
       id: 6,
       image: SkinBag,
       title: "Сумка кожаная",
-      price: "3 290 ₽",
+      price: "1 923 ₽",
+      url: "https://www.ozon.ru/product/sumka-zhenskaya-bolshaya-shopper-na-plecho-cherez-plecho-hobo-dlya-noutbuka-2609155459/?at=VvtzKY6JLHQ1WO2HlYyVXQSgrW309iAKBV8ESDgql36",
     },
     {
       id: 7,
       image: CoatWomen,
       title: "Пальто женское",
-      price: "5 990 ₽",
+      price: "5 083 ₽",
+      url: "https://www.ozon.ru/product/palto-katty-po-demisezonnoe-vesennee-881177479/?at=28t0GgXYJS8jymMwU1JygK4U5PA472h40rpzBtY2ZpPP",
     },
     {
       id: 8,
       image: CostumeMen,
       title: "Костюм мужской",
-      price: "7 490 ₽",
+      price: "8 810 ₽",
+      url: "https://www.ozon.ru/product/kostyum-klassicheskiy-svyatnyh-2900302193/?at=XQtkNWRQyh8nA1K3sxAK1YPtjNLqOjFOA6W5vunNvNgr",
     },
   ];
 
@@ -102,12 +110,12 @@ const Home = () => {
               <FiSearch className="btn-icon" />
               Начать поиск
             </button>
-            <button
+            {/* <button
               className="secondary-btn"
               onClick={() => navigate("/register")}
             >
               Зарегистрироваться
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -118,13 +126,15 @@ const Home = () => {
             style={{ transform: `translateX(-${currentSlide * 220}px)` }}
           >
             {[...products, ...products].map((product, index) => (
-              <div key={`${product.id}-${index}`} className="product-card">
-                <img src={product.image} alt={product.title} />
-                <div className="product-card-info">
-                  <h4>{product.title}</h4>
-                  <p>{product.price}</p>
+              <a href={product.url} className="Special-link">
+                <div key={`${product.id}-${index}`} className="product-card">
+                  <img src={product.image} alt={product.title} />
+                  <div className="product-card-info">
+                    <h4>{product.title}</h4>
+                    <p>{product.price}</p>
+                  </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

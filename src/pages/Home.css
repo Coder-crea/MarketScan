@@ -158,6 +158,9 @@
   color: #333;
   margin-bottom: 4px;
 }
+.Special-link {
+  text-decoration: none;
+}
 
 .product-card-info p {
   font-size: 16px;

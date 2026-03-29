@@ -3,7 +3,7 @@ import Home from "../pages/Home";
 import History from "../pages/History";
 
 import { FaHome } from "react-icons/fa";
-import { FaRegClock } from "react-icons/fa";
+// import { FaRegClock } from "react-icons/fa";
 
 const Tabs = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Tabs = () => {
 
   const tabs = [
     { path: "/", label: "Главная", icon: FaHome },
-    { path: "/history", label: "История", icon: FaRegClock },
+    // { path: "/history", label: "История", icon: FaRegClock },
   ];
 
   const isAuthPage =
