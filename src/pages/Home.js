@@ -102,8 +102,8 @@ const Home = () => {
           </h1>
           <p className="hero-subtitle">
             MarketScan — это умный поиск, который собирает предложения с
-            Wildberries, Ozon, Яндекс Маркета и других площадок. Экономьте время
-            и деньги!
+            российских интернет магазинов и других площадок. Экономьте время и
+            деньги!
           </p>
           <div className="hero-buttons">
             <button className="primary-btn" onClick={handleSearchClick}>
