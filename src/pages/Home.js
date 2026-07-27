@@ -243,19 +243,6 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="footer-creators">
-              <h4 className="footer-subtitle">Над проектом работали</h4>
-              <p className="footer-text">
-                Проект сделан учениками школы МОУ СОШ №34 им. А.Г. Монетова
-              </p>
-              <p className="footer-names">
-                Большаков Даниил и Широкий Александр
-              </p>
-              <p className="footer-location">
-                <FaLocationDot /> г. Подольск, Московская область
-              </p>
-            </div>
-
             <div className="footer-copyright">
               <p>© {new Date().getFullYear()} MarketScan</p>
               <p className="footer-rights">Все права защищены</p>
