@@ -522,21 +522,13 @@ body {
     font-size: 16px;
   }
 }
-/* ОТКЛЮЧАЕМ ВСЕ АНИМАЦИИ И ТРАНСФОРМАЦИИ */
+
 .product-card,
 .product-card *,
 .results-grid .product-card,
 .product-card img,
 .product-card div {
   animation: none !important;
-  /* transform: none !important; */
-  /* transition: none !important; */
+
   will-change: auto !important;
 }
-
-/* Фиксируем карточки */
-/* .product-card {
-  transform: translateY(0) !important;
-  transition: none !important;
-  animation: none !important;
-} */

@@ -25,19 +25,17 @@ const Search = () => {
   const hasFetched = useRef(false);
   const currentQueryRef = useRef(null);
   const sortMenuRef = useRef(null);
-  const inputRef = useRef(null); // ← Реф для управления фокусом инпута
+  const inputRef = useRef(null);
 
   const query = searchParams.get("q") || "";
   const API_URL = "https://foxshop-production.up.railway.app/api";
 
-  // Фокус на инпут при первом монтировании
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
 
-  // Закрытие меню сортировки при клике вне
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sortMenuRef.current && !sortMenuRef.current.contains(event.target)) {
@@ -48,7 +46,6 @@ const Search = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Функция сортировки товаров
   const sortProducts = useCallback((products, sortType, order) => {
     if (!products || products.length === 0) return products;
 
@@ -83,7 +80,6 @@ const Search = () => {
     return sorted;
   }, []);
 
-  // Поиск товаров
   const performSearch = useCallback(
     async (searchQuery) => {
       if (!searchQuery?.trim()) {
