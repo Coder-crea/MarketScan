@@ -368,7 +368,6 @@
   gap: 20px;
 }
 
-/* Левая часть - логотип - фиксированная ширина */
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -395,11 +394,10 @@
   white-space: nowrap;
 }
 
-/* Центральная часть - поиск - строго по центру */
 .navbar-search {
   flex: 1;
   max-width: 600px;
-  margin: 0 auto; /* Автоматические отступы слева и справа */
+  margin: 0 auto;
   display: flex;
   justify-content: center;
 }
@@ -428,15 +426,13 @@
   text-align: left;
 }
 
-/* Правая часть - профиль - фиксированная ширина */
 .navbar-profile {
-  width: 120px; /* Фиксированная ширина */
+  width: 120px;
   flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
 }
 
-/* Остальные стили оставляем без изменений */
 .profile-info {
   display: flex;
   align-items: center;
