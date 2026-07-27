@@ -11,7 +11,7 @@ import JeansMen from "../assets/img/Jeans_mens.jpg";
 import SkinBag from "../assets/img/skin_bag.jpg";
 import CoatWomen from "../assets/img/Palto_girl.jpg";
 import CostumeMen from "../assets/img/Costume_men.jpg";
-import { FaLocationDot } from "react-icons/fa6";
+// import { FaLocationDot } from "react-icons/fa6";
 const Home = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
